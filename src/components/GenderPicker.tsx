@@ -29,7 +29,6 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor: 'purple',
         marginTop: 20,
-        overflow: 'hidden',
     },
     pickerContainer: {
         height: 50,

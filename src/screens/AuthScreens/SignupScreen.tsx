@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { StyleSheet, Image, Text, View, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
-import FloatingLabelInput from '../components/FloatingLableIInput';
-import GenderPicker from '../components/GenderPicker';
-import CountryPickerr from '../components/CountryPicker/CountryPicker';
+import FloatingLabelInput from '../../components/FloatingLableIInput';
+import GenderPicker from '../../components/GenderPicker';
+import DatePickerr from '../../components/DatePicker';
+import SubmitButton from '../../components/SubmitButton';
 
 export default function LoginScreen({navigation} : any) {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [selectedGender, setSelectedGender] = useState<string | undefined>(undefined);
 
   const handleCreateAccount = () => {
     navigation.navigate('Login');
@@ -17,7 +17,7 @@ export default function LoginScreen({navigation} : any) {
   return (
     <ScrollView style={styles.container}>
       <Image 
-        source={require('../assets/LoginHeaderImage.png')}
+        source={require('../../assets/LoginHeaderImage.png')}
         style={styles.backgroundImage}
       />
 
@@ -45,11 +45,10 @@ export default function LoginScreen({navigation} : any) {
         />
 
         <GenderPicker/>
-        <CountryPickerr/>
 
-        <TouchableOpacity style={styles.buttonContainer} onPress={handleCreateAccount}>
-          <Text style={styles.buttonText}>SIGN UP</Text>
-        </TouchableOpacity>
+        <DatePickerr/>
+
+        <SubmitButton title="SIGN UP" destination={handleCreateAccount}/>
 
 
       </View>
@@ -81,20 +80,6 @@ const styles = StyleSheet.create({
     marginTop: 40,
     fontWeight: 'bold',
   },
-
-  buttonContainer: {
-    marginTop: 30,
-    backgroundColor: 'purple',
-    paddingVertical: 20,
-    paddingHorizontal: 35,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-  }
 
 });
 

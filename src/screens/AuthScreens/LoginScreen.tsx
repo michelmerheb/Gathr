@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Image, Text, View, Dimensions, TouchableOpacity } from 'react-native';
-import FloatingLabelInput from '../components/FloatingLableIInput';
+import FloatingLabelInput from '../../components/FloatingLableIInput';
+import SubmitButton from '../../components/SubmitButton';
 
 export default function LoginScreen({navigation} : any) {
   const [username, setUsername] = useState('');
@@ -13,7 +14,7 @@ export default function LoginScreen({navigation} : any) {
   return (
     <View style={styles.container}>
       <Image 
-        source={require('../assets/LoginHeaderImage.png')}
+        source={require('../../assets/LoginHeaderImage.png')}
         style={styles.backgroundImage}
       />
 
@@ -34,12 +35,9 @@ export default function LoginScreen({navigation} : any) {
           secureTextEntry={true}
         />
 
-        <TouchableOpacity style={styles.buttonContainer}>
-          <Text style={styles.buttonText}>SIGN IN</Text>
-        </TouchableOpacity>
+        <SubmitButton title="SIGN IN"/>
 
-
-        <Text style={styles.signupText}>Doesn't have account? <TouchableOpacity onPress={handleSignup}><Text style={styles.signupText}> Sign Up</Text></TouchableOpacity></Text>
+        <Text style={styles.signupText}>Doesn't have account? <TouchableOpacity onPress={handleSignup}><Text style={[styles.signupText, {color: 'purple', fontWeight:'bold'}]}> Sign Up</Text></TouchableOpacity></Text>
 
       </View>
     </View>
@@ -71,19 +69,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
-  buttonContainer: {
-    marginTop: 30,
-    backgroundColor: 'purple',
-    paddingVertical: 20,
-    paddingHorizontal: 35,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-  },
+
   signupText: {
     color: 'black',
     fontSize: 15
