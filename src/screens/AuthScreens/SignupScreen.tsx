@@ -1,20 +1,43 @@
-import React, { useState } from 'react';
-import { StyleSheet, Image, Text, View, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { SafeAreaView, StyleSheet, Image, Text, View, Dimensions, Alert, ScrollView } from 'react-native';
 import FloatingLabelInput from '../../components/FloatingLableIInput';
 import GenderPicker from '../../components/GenderPicker';
 import DatePickerr from '../../components/DatePicker';
 import SubmitButton from '../../components/SubmitButton';
+import { createUser } from '../../redux/Slices/UserSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../redux/store';
 
 export default function LoginScreen({navigation} : any) {
-  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [tokenExpiresIn, setTokenExpiresIn] = useState('15m');
+  const dispatch = useDispatch<AppDispatch>();
+  const error = useSelector((state: RootState) => state.user.error);
+  const user = useSelector((state: RootState) => state.user.user);
 
-  const handleCreateAccount = () => {
-    navigation.navigate('Login');
+  useEffect(() => {
+    if (user) {
+      Alert.alert('Signup Success', 'You are now signed up!');
+      navigation.navigate('Login');
+    }
+  }, [user, navigation]);
+  
+
+const handleSignup = () => {
+  if (!email || !password) {
+    Alert.alert('Validation Error', 'Email and password are required.');
+    return;
   }
+  dispatch(createUser({ email, password, token_expires_in: tokenExpiresIn }));
+  navigation.navigate('Login');
+};
+
+
 
   return (
+    <SafeAreaView style={{flex: 1}}>
     <ScrollView style={styles.container}>
       <Image 
         source={require('../../assets/LoginHeaderImage.png')}
@@ -29,6 +52,7 @@ export default function LoginScreen({navigation} : any) {
           label="Username"
           value={username}
           onChangeText={setUsername}
+
           secureTextEntry={false} 
         />
         <FloatingLabelInput 
@@ -48,11 +72,12 @@ export default function LoginScreen({navigation} : any) {
 
         <DatePickerr/>
 
-        <SubmitButton title="SIGN UP" destination={handleCreateAccount}/>
+        <SubmitButton title="SIGN UP" destination={handleSignup}/>
 
 
       </View>
     </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -82,4 +107,3 @@ const styles = StyleSheet.create({
   },
 
 });
-
