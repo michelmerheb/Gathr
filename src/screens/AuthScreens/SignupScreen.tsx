@@ -12,7 +12,6 @@ export default function LoginScreen({navigation} : any) {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [tokenExpiresIn, setTokenExpiresIn] = useState('15m');
   const dispatch = useDispatch<AppDispatch>();
   const error = useSelector((state: RootState) => state.user.error);
   const user = useSelector((state: RootState) => state.user.user);
@@ -20,7 +19,6 @@ export default function LoginScreen({navigation} : any) {
   useEffect(() => {
     if (user) {
       Alert.alert('Signup Success', 'You are now signed up!');
-      navigation.navigate('Login');
     }
   }, [user, navigation]);
   
@@ -29,16 +27,15 @@ const handleSignup = () => {
   if (!email || !password) {
     Alert.alert('Validation Error', 'Email and password are required.');
     return;
+  } else {
+    dispatch(createUser({ email, password, token_expires_in: '15m' }));
   }
-  dispatch(createUser({ email, password, token_expires_in: tokenExpiresIn }));
-  navigation.navigate('Login');
+  
 };
 
-
-
   return (
-    <SafeAreaView style={{flex: 1}}>
-    <ScrollView style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
       <Image 
         source={require('../../assets/LoginHeaderImage.png')}
         style={styles.backgroundImage}
@@ -48,6 +45,7 @@ const handleSignup = () => {
 
         <Text style={styles.SigninText}>Sign Up Now</Text>
 
+        {error && <Text style={styles.errorText}>{error}</Text>}
         <FloatingLabelInput 
           label="Username"
           value={username}
@@ -76,7 +74,7 @@ const handleSignup = () => {
 
 
       </View>
-    </ScrollView>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -104,6 +102,11 @@ const styles = StyleSheet.create({
     fontSize: 35,
     marginTop: 40,
     fontWeight: 'bold',
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 15,
+    marginHorizontal: 50,
   },
 
 });

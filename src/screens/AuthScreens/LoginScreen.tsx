@@ -1,16 +1,30 @@
 import React, { useState } from 'react';
-import { StyleSheet, Image, Text, View, Dimensions, TouchableOpacity } from 'react-native';
+import { StyleSheet, Image, Text, View, Dimensions, TouchableOpacity, Alert } from 'react-native';
 import FloatingLabelInput from '../../components/FloatingLableIInput';
 import SubmitButton from '../../components/SubmitButton';
+import { loginUser } from '../../redux/Slices/UserSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../redux/store';
+
 
 export default function LoginScreen({navigation} : any) {
-  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch = useDispatch<AppDispatch>();
+  const error = useSelector((state: RootState) => state.user.error);
+
+  const handleLogin = () => {
+    if (!email || !password) {
+        Alert.alert('Validation Error', 'Email and password are required.');
+    } else {
+        dispatch(loginUser({ email, password, token_expires_in: '15m' }));
+    }
+  };
 
   const handleSignup = () => {
     navigation.navigate('SignUp');
   }
+
   return (
     <View style={styles.container}>
       <Image 
@@ -22,6 +36,7 @@ export default function LoginScreen({navigation} : any) {
 
         <Text style={styles.SigninText}>Sign In</Text>
 
+        {error && <Text style={styles.errorText}>{error}</Text>}
         <FloatingLabelInput 
           label="Email"
           value={email}
@@ -35,7 +50,7 @@ export default function LoginScreen({navigation} : any) {
           secureTextEntry={true}
         />
 
-        <SubmitButton title="SIGN IN"/>
+        <SubmitButton title="SIGN IN" destination={handleLogin}/>
 
         <Text style={styles.signupText}>Doesn't have account? <TouchableOpacity onPress={handleSignup}><Text style={[styles.signupText, {color: 'purple', fontWeight:'bold'}]}> Sign Up</Text></TouchableOpacity></Text>
 
@@ -68,11 +83,14 @@ const styles = StyleSheet.create({
     marginTop: 40,
     fontWeight: 'bold',
   },
-
-
   signupText: {
     color: 'black',
     fontSize: 15
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 15,
+    marginHorizontal: 50,
   },
 
 });

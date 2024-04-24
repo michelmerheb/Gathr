@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { RootState } from '../store';  // Assuming the store is in the same directory level
+import { RootState } from '../store';
+import * as Keychain from 'react-native-keychain';
 
 
-interface User {
+export interface User {
   message: string;
   accessToken: string;
   refreshToken: string;
@@ -16,41 +17,82 @@ interface UserState {
   isAuth: boolean;
 }
 
-interface SignupPayload {
+interface AuthPayload {
   email: string;
   password: string;
   token_expires_in?: string;
 }
 
-const apiBaseURL = process.env.REACT_APP_API_BASE_URL || 'https://backend-practice.euriskomobility.me';
+export const apiBaseURL = process.env.REACT_APP_API_BASE_URL || 'https://backend-practice.euriskomobility.me';
 
-export const createUser = createAsyncThunk<User, SignupPayload, { rejectValue: string }>(
+export const createUser = createAsyncThunk<User, AuthPayload, { rejectValue: string }>(
   'user/create',
   async (userData, { rejectWithValue }) => {
     try {
       const response = await axios.post(`${apiBaseURL}/signup`, userData);
-      return response.data;
+      if (response.data) {
+        console.log("Signup successful!");
+        await Keychain.setGenericPassword('token', JSON.stringify({
+          accessToken: response.data.accessToken,
+          refreshToken: response.data.refreshToken,
+        }));
+        return response.data;
+      } else {
+        console.error("Signup failed: Invalid server response");
+        return rejectWithValue('Invalid response from server');
+      }
     } catch (error : any) {
-      return rejectWithValue(error.response?.data || error.message);
-    }
+        return rejectWithValue("User already exists");
+      }
   }
 );
 
-export const refreshToken = createAsyncThunk<User, string, { state: RootState, rejectValue: string }>(
-    'user/refresh',
-    async (refreshToken, { rejectWithValue }) => {
-      try {
-        const response = await axios.post(`${apiBaseURL}/refresh-token`, { refreshToken });
-        if (response.data && response.data.accessToken && response.data.refreshToken) {
-          // Assuming the API correctly returns an object with accessToken, refreshToken, and any other expected properties
-          return response.data as User;
-        } else {
-          return rejectWithValue('Invalid response from server');
-        }
-      } catch (error: any) {
-        return rejectWithValue(error.response?.data || "Network error");
+export const loginUser = createAsyncThunk<User, AuthPayload, { rejectValue: string }>(
+  'user/login',
+  async (loginData, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(`${apiBaseURL}/login`, loginData);
+      if (response.data) {
+        console.log("Login successful");
+        await Keychain.setGenericPassword('token', JSON.stringify({
+          accessToken: response.data.accessToken,
+          refreshToken: response.data.refreshToken,
+        }));
+        return response.data;
+      } else {
+        console.error("Login failed: Invalid server response");
+        return rejectWithValue('Invalid response from server');
       }
+    } catch (error : any) {
+        return rejectWithValue('Incorrect email or password');
+      }
+  }
+);
+
+export const refreshToken = createAsyncThunk<User, { refreshToken: string }, { state: RootState, rejectValue: string }>(
+  'user/refresh',
+  async ({ refreshToken }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(`${apiBaseURL}/refresh-token`, { refreshToken, token_expires_in: '30m' });
+      if (response.data && response.data.accessToken) {
+        console.log("Token refresh successful");
+        await Keychain.setGenericPassword('token', JSON.stringify({
+          accessToken: response.data.accessToken,
+          refreshToken: response.data.refreshToken,
+        }));
+        return {
+            message: "Token refreshed successfully",
+            accessToken: response.data.accessToken,
+            refreshToken: response.data.refreshToken
+        };
+      } else {
+                console.error("Token refresh failed: Invalid server response");
+        return rejectWithValue('Invalid response from server');
+      }
+  } catch (error: any) {
+      return rejectWithValue(error.response?.data || "Network error");
     }
+}
 );
 
 
@@ -68,6 +110,10 @@ const userSlice = createSlice({
     logout: (state) => {
       state.user = null;
       state.isAuth = false;
+      Keychain.resetGenericPassword();
+    },
+    setAuthStatus: (state, action: PayloadAction<boolean>) => {
+      state.isAuth = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -85,6 +131,22 @@ const userSlice = createSlice({
         state.loading = false;
         state.isAuth = false;
       })
+      .addCase(loginUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+    })
+    .addCase(loginUser.fulfilled, (state, action: PayloadAction<User>) => {
+        state.user = action.payload;
+        state.isAuth = true;
+        state.loading = false;
+        state.error = null;
+        axios.defaults.headers.common['Authorization'] = `Bearer ${action.payload.accessToken}`;
+    })
+    .addCase(loginUser.rejected, (state, action: PayloadAction<string | null | undefined>) => {
+        state.error = action.payload;
+        state.loading = false;
+        state.isAuth = false;
+    })
       .addCase(refreshToken.fulfilled, (state, action: PayloadAction<User>) => {
         state.user = action.payload;
         state.isAuth = true;
@@ -96,5 +158,5 @@ const userSlice = createSlice({
   }
 });
 
-export const { logout } = userSlice.actions;
+export const { logout, setAuthStatus } = userSlice.actions;
 export default userSlice.reducer;
