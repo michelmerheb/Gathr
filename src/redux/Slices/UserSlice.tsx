@@ -15,7 +15,15 @@ interface UserState {
   loading: boolean;
   error: string | null | undefined;
   isAuth: boolean;
+  posts: any[]; 
+  pagination: {
+    currentPage: number;
+    totalPages: number;
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
+  } | null;
 }
+
 
 interface AuthPayload {
   email: string;
@@ -96,11 +104,39 @@ export const refreshToken = createAsyncThunk<User, { refreshToken: string }, { s
 );
 
 
+export const fetchPosts = createAsyncThunk<
+  { posts: any[]; pagination: any }, 
+  { page: number; pageSize: number }, 
+  { state: RootState; rejectValue: string } 
+>(
+  'user/fetchPosts',
+  async ({ page, pageSize }, { getState, rejectWithValue }) => {
+    try {
+      const accessToken = (getState().user.user as User).accessToken; // Get access token from state
+      const response = await axios.get(`${apiBaseURL}/posts`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+        params: { page, pageSize }
+      });
+      if (response.data) {
+        return { posts: response.data.results, pagination: response.data.pagination };
+      } else {
+        return rejectWithValue('No data received from server');
+      }
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data || 'Failed to fetch posts');
+    }
+  }
+);
+
+
+
 const initialState: UserState = {
   user: null,
   loading: false,
   error: null,
-  isAuth: false
+  isAuth: false,
+  posts: [],
+  pagination: null,
 };
 
 const userSlice = createSlice({
@@ -147,14 +183,28 @@ const userSlice = createSlice({
         state.loading = false;
         state.isAuth = false;
     })
-      .addCase(refreshToken.fulfilled, (state, action: PayloadAction<User>) => {
-        state.user = action.payload;
-        state.isAuth = true;
-      })
-      .addCase(refreshToken.rejected, (state, action: PayloadAction<string | null | undefined>) => {
-        state.error = action.payload;
-        state.isAuth = false;
-      });
+    .addCase(refreshToken.fulfilled, (state, action: PayloadAction<User>) => {
+      state.user = action.payload;
+      state.isAuth = true;
+    })
+    .addCase(refreshToken.rejected, (state, action: PayloadAction<string | null | undefined>) => {
+      state.error = action.payload;
+      state.isAuth = false;
+    })
+    builder
+  .addCase(fetchPosts.pending, (state) => {
+    state.loading = true;
+  })
+  .addCase(fetchPosts.fulfilled, (state, action) => {
+    state.loading = false;
+    state.posts = action.payload.posts;
+    state.pagination = action.payload.pagination;
+  })
+  .addCase(fetchPosts.rejected, (state, action) => {
+    state.loading = false;
+    state.error = action.payload;
+  });
+
   }
 });
 

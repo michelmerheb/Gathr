@@ -8,9 +8,7 @@ export default function SettingsScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Settings</Text>
-      </View>
+
       <View style={styles.setting}>
         <View>
             <Text style={styles.settingTitle}>Push Notifications</Text>
@@ -53,17 +51,7 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#2C041C',
-  },
-  header: {
-    margin: 10,
-    padding: 20,
-    borderRadius: 20,
-    backgroundColor: '#9B111E',
-  },
-  headerText: {
-    color: '#fff',
-    fontSize: 25,
+    backgroundColor: 'purple',
   },
   setting: {
     flexDirection: 'row',
