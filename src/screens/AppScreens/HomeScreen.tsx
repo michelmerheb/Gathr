@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { Text, View, ActivityIndicator, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Text, View, TouchableOpacity, ActivityIndicator, StyleSheet, SafeAreaView, FlatList, RefreshControl } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
 import { fetchPosts } from '../../redux/Slices/UserSlice';
@@ -9,34 +9,19 @@ export default function HomeScreen() {
   const { posts, loading, error, pagination } = useSelector((state: RootState) => state.user);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  const pageSize = 10;
+  const [reachedEnd, setReachedEnd] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);  // New state for refresh control
+  const pageSize = 25;
 
   useEffect(() => {
-    handleFetchPosts(currentPage, pageSize);
-  }, [currentPage]);
+    if (!isRefreshing) {
+      handleFetchPosts(currentPage, pageSize);
+    }
+  }, [currentPage, pageSize, isRefreshing]);
 
-  const handleFetchPosts = async (page: number, pageSize: number) => {
-    setIsRefreshing(true); // Enable refreshing indicator
-    dispatch(fetchPosts({ page, pageSize }))
-      .then(response => {
-        // Handle success if necessary
-      })
-      .catch(error => {
-        console.error("Failed to fetch posts:", error);
-        // Handle the error state
-      })
-      .finally(() => {
-        setIsRefreshing(false); // Always turn off refreshing indicator
-      });
+  const handleFetchPosts = (page: number, pageSize: number) => {
+    dispatch(fetchPosts({ page, pageSize }));
   };
-  
-  
-
-  const onRefresh = useCallback(() => {
-    handleFetchPosts(1, pageSize); // Always refresh the first page
-  }, [pageSize]);
-  
 
   const handleNextPage = () => {
     if (pagination && pagination.hasNextPage) {
@@ -50,49 +35,57 @@ export default function HomeScreen() {
     }
   };
 
-  const renderItem = ({ item } : any) => (
+  const handleEndReached = () => {
+    setReachedEnd(true);
+  };
+
+  const onRefresh = () => {
+    setIsRefreshing(true);
+    handleFetchPosts(1, pageSize);  // Optionally reset to first page or use current page
+    setIsRefreshing(false);
+  };
+
+  const renderItem = ({ item }: any) => (
     <Text style={styles.post}>{item.title}</Text>
   );
 
   return (
-    <View style={styles.container}>
-      {loading && <ActivityIndicator size="large" color="#0000ff" />}
-      {error && <Text style={styles.error}>Error: {error}</Text>}
-      <Text style={styles.title}>Posts</Text>
-      <FlatList
+    <SafeAreaView style={styles.container}>
+        {loading && <ActivityIndicator size="large" color="#0000ff" />}
+        {error && <Text style={styles.error}>Error: {error}</Text>}
+
+        <FlatList
         data={posts}
         renderItem={renderItem}
-        keyExtractor={(item, index) => index.toString()}
-        contentContainerStyle={styles.list}
-        onRefresh={onRefresh}
-        refreshing={isRefreshing}
+        keyExtractor={item => item._id}
+        onEndReached={handleEndReached}
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={onRefresh}
+          />
+        }
+        ListFooterComponent={() => (
+          reachedEnd && pagination &&
+          <View style={styles.pagination}>
+            <TouchableOpacity style={styles.button} onPress={handlePreviousPage} disabled={!pagination?.hasPrevPage}>
+              <Text style={styles.buttonText}>PREVIOUS</Text>
+            </TouchableOpacity>
+            <Text>Page {currentPage} of {pagination?.totalPages}</Text>
+            <TouchableOpacity style={styles.button} onPress={handleNextPage} disabled={!pagination?.hasNextPage}>
+              <Text style={styles.buttonText}>NEXT</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       />
-      <View style={styles.pagination}>
-        <TouchableOpacity 
-          style={styles.button}
-          onPress={handlePreviousPage} 
-          disabled={!pagination?.hasPrevPage}
-        >
-          <Text style={styles.buttonText}>Previous</Text>
-        </TouchableOpacity>
-        <Text>Page {currentPage} of {pagination?.totalPages}</Text>
-        <TouchableOpacity 
-          style={styles.button}
-          onPress={handleNextPage} 
-          disabled={!pagination?.hasNextPage}
-        >
-          <Text style={styles.buttonText}>Next</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    </SafeAreaView>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     padding: 20,
   },
   title: {
@@ -102,28 +95,27 @@ const styles = StyleSheet.create({
   },
   post: {
     marginTop: 10,
-    color: 'black'
+    color: 'white',
+    backgroundColor: 'purple',
+    padding: 20,
+    borderRadius: 10,
   },
   pagination: {
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 20,
+    justifyContent: 'space-evenly'
+  },
+  button: {
+    backgroundColor: "purple",
+    padding: 10,
+    borderRadius: 10
+  },
+  buttonText: {
+    color: 'white'
   },
   error: {
     color: 'red',
+    textAlign: 'center'
   },
-  list: {
-    width: '100%',
-  },
-  button: {
-    backgroundColor: 'purple',
-    padding: 10,
-    margin: 5,
-    borderRadius: 5,
-    opacity: 1
-  },
-  buttonText: {
-    color: 'white',
-    fontWeight: 'bold'
-  }
 });
