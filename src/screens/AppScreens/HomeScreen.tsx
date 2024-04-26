@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Text, View, TouchableOpacity, ActivityIndicator, StyleSheet, SafeAreaView, FlatList, RefreshControl } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
-import { fetchPosts } from '../../redux/Slices/UserSlice';
+import { fetchPosts, clearError } from '../../redux/Slices/UserSlice';
 
 export default function HomeScreen() {
   const dispatch = useDispatch<AppDispatch>();
@@ -13,6 +13,10 @@ export default function HomeScreen() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const pageSize = 25;
 
+  useEffect(() => {
+    dispatch(clearError())
+  }, [dispatch])
+  
   useEffect(() => {
     if (!isRefreshing) {
       handleFetchPosts(currentPage, pageSize);
@@ -51,7 +55,7 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-        {loading && <ActivityIndicator size="large" color="#0000ff" />}
+        {loading && <ActivityIndicator size="large" color="purple" />}
         {error && <Text style={styles.error}>Error: {error}</Text>}
 
         <FlatList

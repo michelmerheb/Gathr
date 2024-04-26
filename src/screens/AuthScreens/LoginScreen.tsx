@@ -1,17 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Image, Text, View, Dimensions, TouchableOpacity, Alert } from 'react-native';
 import FloatingLabelInput from '../../components/FloatingLableIInput';
 import SubmitButton from '../../components/SubmitButton';
-import { loginUser } from '../../redux/Slices/UserSlice';
+import { loginUser, clearError } from '../../redux/Slices/UserSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
-
 
 export default function LoginScreen({navigation} : any) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch<AppDispatch>();
   const error = useSelector((state: RootState) => state.user.error);
+
+
+  useEffect(() => {
+    dispatch(clearError());
+  }, [dispatch]);
 
   const handleLogin = () => {
     if (!email || !password) {

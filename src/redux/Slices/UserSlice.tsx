@@ -130,6 +130,7 @@ export const fetchPosts = createAsyncThunk<
 
 
 
+
 const initialState: UserState = {
   user: null,
   loading: false,
@@ -151,6 +152,9 @@ const userSlice = createSlice({
     setAuthStatus: (state, action: PayloadAction<boolean>) => {
       state.isAuth = action.payload;
     },
+    clearError: (state) => {
+      state.error = null;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -208,5 +212,5 @@ const userSlice = createSlice({
   }
 });
 
-export const { logout, setAuthStatus } = userSlice.actions;
+export const { logout, setAuthStatus, clearError } = userSlice.actions;
 export default userSlice.reducer;
