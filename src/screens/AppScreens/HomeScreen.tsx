@@ -10,7 +10,7 @@ export default function HomeScreen() {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [reachedEnd, setReachedEnd] = useState(false);
-  const [isRefreshing, setIsRefreshing] = useState(false);  // New state for refresh control
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const pageSize = 25;
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export default function HomeScreen() {
 
   const onRefresh = () => {
     setIsRefreshing(true);
-    handleFetchPosts(1, pageSize);  // Optionally reset to first page or use current page
+    handleFetchPosts(1, pageSize);
     setIsRefreshing(false);
   };
 
