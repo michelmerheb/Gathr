@@ -15,7 +15,7 @@ export default function ProfileScreen({navigation} : any) {
             />
           </View>
 
-          <Text style={styles.textBold}>Philip Rolodex</Text>
+          <Text style={styles.profileName}>Philip Rolodex</Text>
 
           <View style={styles.buttonsView}>
             <View style={styles.button}>
@@ -68,6 +68,11 @@ const styles = StyleSheet.create({
     height: screenHeight / 2,
     borderRadius: 20
   },
+  profileName: {
+    color: 'black',
+    fontSize: 30,
+    textAlign: 'center',
+  },
   buttonsView: {
     flexDirection: 'row',
     minHeight: 70,
@@ -76,7 +81,7 @@ const styles = StyleSheet.create({
   button: {
     margin: 10,
     flex: 0.5,
-    backgroundColor: 'purple',
+    backgroundColor: '#5B2C6F',
     borderRadius: 10,
   },
   buttonText: {
@@ -106,7 +111,7 @@ const styles = StyleSheet.create({
     minHeight: 70,
     marginTop: 20,
     justifyContent: 'space-around',
-    backgroundColor: 'purple'
+    backgroundColor: '#5B2C6F'
   },
   textNumber: {
     fontSize: 15,

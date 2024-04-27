@@ -63,8 +63,8 @@ export default function LoginScreen({navigation} : any) {
   );
 };
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
+const DeviceHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   container: {
@@ -72,8 +72,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#6420AA',
   },
   backgroundImage: {
-    width: windowWidth,
-    height: windowHeight / 3,
+    width: DeviceWidth,
+    height: DeviceHeight / 3,
   },
   BoxContainer: {
     flex: 1,

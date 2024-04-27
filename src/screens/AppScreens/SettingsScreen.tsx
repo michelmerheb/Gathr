@@ -5,6 +5,7 @@ export default function SettingsScreen() {
   const [pushNotificationsEnabled, setPushNotificationsEnabled] = useState(false);
   const [emailNotificationsEnabled, setEmailNotificationsEnabled] = useState(false);
   const [locationServicesEnabled, setLocationServicesEnabled] = useState(false);
+  const [darkTheme, setDarkTheme] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -41,6 +42,16 @@ export default function SettingsScreen() {
           onValueChange={setLocationServicesEnabled}
         />
       </View>
+      <View style={styles.setting}>
+        <View>
+            <Text style={styles.settingTitle}>Dark Theme</Text>
+            <Text style={styles.settingSubTitle}>Turn on or off the Dark Theme</Text>
+        </View>
+        <Switch
+          value={darkTheme}
+          onValueChange={setDarkTheme}
+        />
+      </View>
       <TouchableOpacity style={styles.deleteButton}>
         <Text style={styles.deleteButtonText}>Delete My Account</Text>
       </TouchableOpacity>
@@ -51,7 +62,7 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'purple',
+    backgroundColor: '#5B2C6F',
   },
   setting: {
     flexDirection: 'row',
@@ -62,6 +73,9 @@ const styles = StyleSheet.create({
   settingTitle: {
     color: '#fff',
     fontSize: 20,
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 1,
+    textShadowColor: 'rgba(0, 0, 0, 0.5)',
   },
   settingSubTitle: {
     color: 'gray',

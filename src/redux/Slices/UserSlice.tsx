@@ -108,16 +108,17 @@ export const fetchPosts = createAsyncThunk<
   { posts: any[]; pagination: any }, 
   { page: number; pageSize: number }, 
   { state: RootState; rejectValue: string } 
->(
+  >(
   'user/fetchPosts',
   async ({ page, pageSize }, { getState, rejectWithValue }) => {
     try {
-      const accessToken = (getState().user.user as User).accessToken; // Get access token from state
+      const accessToken = (getState().user.user as User).accessToken;
       const response = await axios.get(`${apiBaseURL}/posts`, {
         headers: { Authorization: `Bearer ${accessToken}` },
         params: { page, pageSize }
       });
       if (response.data) {
+        console.log('Fetch successful');
         return { posts: response.data.results, pagination: response.data.pagination };
       } else {
         return rejectWithValue('No data received from server');

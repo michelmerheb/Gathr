@@ -11,9 +11,9 @@ const Drawer = createDrawerNavigator();
 function CustomDrawerContent(props : any) {
   return (
     <DrawerContentScrollView {...props}>
-      <SafeAreaView style={{ backgroundColor: '#6200EE' }}>
-        <View style={{ padding: 20, backgroundColor: '#6200EE', alignItems: 'center' }}>
-          <Image source={require('../assets/LoginHeaderImage.png')} style={{ width: 80, height: 80, borderRadius: 40, marginBottom: 10 }} />
+      <SafeAreaView style={{ backgroundColor: '#5B2C6F' }}>
+        <View style={{ padding: 20, backgroundColor: '#5B2C6F', alignItems: 'center' }}>
+          <Image source={require('../assets/UserPhoto.jpg')} style={{ width: 80, height: 80, borderRadius: 40, marginBottom: 10 }} />
           <Text style={{ color: 'white', fontSize: 18 }}>John Doe</Text>
           <Text style={{ color: 'white', fontSize: 12, opacity: 0.8 }}>john.doe@example.com</Text>
         </View>

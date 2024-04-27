@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Text, View, TouchableOpacity, ActivityIndicator, StyleSheet, SafeAreaView, FlatList, RefreshControl } from 'react-native';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import { Text, View, TouchableOpacity, ActivityIndicator, StyleSheet, SafeAreaView, FlatList, RefreshControl, Dimensions } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
 import { fetchPosts, clearError } from '../../redux/Slices/UserSlice';
+import { Picker } from '@react-native-picker/picker';
 
 export default function HomeScreen() {
   const dispatch = useDispatch<AppDispatch>();
@@ -11,12 +12,24 @@ export default function HomeScreen() {
   const [currentPage, setCurrentPage] = useState(1);
   const [reachedEnd, setReachedEnd] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [sortBy, setSortBy] = useState('title');
   const pageSize = 25;
+
+  const sortedPosts = useMemo(() => {
+    switch (sortBy) {
+      case 'title':
+        return [...posts].sort((a, b) => a.title.localeCompare(b.title));
+      case 'date':
+        return [...posts].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      default:
+        return posts;
+    }
+  }, [posts, sortBy]);
 
   useEffect(() => {
     dispatch(clearError())
   }, [dispatch])
-  
+
   useEffect(() => {
     if (!isRefreshing) {
       handleFetchPosts(currentPage, pageSize);
@@ -43,23 +56,48 @@ export default function HomeScreen() {
     setReachedEnd(true);
   };
 
-  const onRefresh = () => {
+  const onRefresh = useCallback(async () => {
     setIsRefreshing(true);
-    handleFetchPosts(1, pageSize);
+    try {
+      await dispatch(fetchPosts({ page: 1, pageSize })).unwrap();
+    } catch (error) {
+      console.error('Error refreshing posts:', error);
+    }
     setIsRefreshing(false);
-  };
+  }, [dispatch, pageSize]);
+  
 
   const renderItem = ({ item }: any) => (
     <Text style={styles.post}>{item.title}</Text>
   );
 
+
+  const renderPicker = () => {
+    if (posts.length > 0 && !error) {
+      return (
+        <View style={styles.pickerContainer}>
+          <Picker
+            selectedValue={sortBy}
+            onValueChange={(itemValue, itemIndex) => setSortBy(itemValue)}
+            style={styles.picker}>
+            <Picker.Item label="Sort by: Title" value="title" />
+            <Picker.Item label="Sort by: Date" value="date" />
+          </Picker>
+        </View>
+      );
+    }
+    return null;
+  };
+  
+
+
   return (
     <SafeAreaView style={styles.container}>
         {loading && <ActivityIndicator size="large" color="purple" />}
-        {error && <Text style={styles.error}>Error: {error}</Text>}
+        {error && <Text style={styles.error}>Oops! Something went wrong. Please try to refresh.</Text>}
 
         <FlatList
-        data={posts}
+        data={sortedPosts}
         renderItem={renderItem}
         keyExtractor={item => item._id}
         onEndReached={handleEndReached}
@@ -69,13 +107,14 @@ export default function HomeScreen() {
             onRefresh={onRefresh}
           />
         }
+        ListHeaderComponent={renderPicker}
         ListFooterComponent={() => (
           reachedEnd && pagination &&
           <View style={styles.pagination}>
             <TouchableOpacity style={styles.button} onPress={handlePreviousPage} disabled={!pagination?.hasPrevPage}>
               <Text style={styles.buttonText}>PREVIOUS</Text>
             </TouchableOpacity>
-            <Text>Page {currentPage} of {pagination?.totalPages}</Text>
+            <Text style={styles.pageNumber}>Page {currentPage} of {pagination?.totalPages}</Text>
             <TouchableOpacity style={styles.button} onPress={handleNextPage} disabled={!pagination?.hasNextPage}>
               <Text style={styles.buttonText}>NEXT</Text>
             </TouchableOpacity>
@@ -86,22 +125,33 @@ export default function HomeScreen() {
   );
 }
 
+const screenWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    backgroundColor: '#5B2C6F'
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: 'black'
+  pickerContainer: {
+    marginVertical: 10,
+    width: screenWidth / 3,
+    borderWidth: 1,
+    borderColor: 'purple',
+    backgroundColor: 'white',
+    borderRadius: 10,
+  },
+  picker: {
+    height: 50,
+    width: '100%',
+    color: 'purple',
   },
   post: {
-    marginTop: 10,
-    color: 'white',
-    backgroundColor: 'purple',
-    padding: 20,
+    marginTop: 30,
+    color: 'black',
+    fontSize: 25,
+    backgroundColor: 'white',
+    padding: 30,
     borderRadius: 10,
   },
   pagination: {
@@ -111,15 +161,19 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly'
   },
   button: {
-    backgroundColor: "purple",
+    backgroundColor: "white",
     padding: 10,
     borderRadius: 10
   },
   buttonText: {
+    color: 'purple'
+  },
+  pageNumber: {
     color: 'white'
   },
   error: {
-    color: 'red',
+    color: 'white',
+    fontSize: 25,
     textAlign: 'center'
   },
 });
