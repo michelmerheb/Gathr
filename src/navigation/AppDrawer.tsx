@@ -1,11 +1,14 @@
 import React from 'react';
-import { View, Text, SafeAreaView, Image, Switch } from 'react-native';
+import { View, StyleSheet, Text, SafeAreaView, Image, TouchableOpacity } from 'react-native';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
+import { useNavigation } from '@react-navigation/native';
 import ProfileScreen from '../screens/AppScreens/ProfileScreen';
 import SettingsScreen from '../screens/AppScreens/SettingsScreen';
 import LogoutComponent from '../screens/AppScreens/LogoutScreen';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import MenuImage from '../assets/menu.png';
+import SettingsImage from '../assets/SettingsIcon.png'
+import ProfileImage from '../assets/ProfileIcon.png'
+import LogoutImage from '../assets/LogoutIcon.jpg'
 const Drawer = createDrawerNavigator();
 
 function CustomDrawerContent(props : any) {
@@ -25,23 +28,61 @@ function CustomDrawerContent(props : any) {
   );
 }
 
+const DrawerIcon = () => {
+  const navigation = useNavigation();
+  return (
+    <Image source={MenuImage} style={styles.drawerImage} />
+  );
+};
+
+const ProfileIcon = () => {
+  const navigation = useNavigation();
+    return (
+      <Image source={ProfileImage} style={styles.images}/>
+    )
+}
+
+const SettingsIcon = () => {
+  const navigation = useNavigation();
+    return (
+      <Image source={SettingsImage} style={styles.images}/>
+    )
+};
+
+const LogoutIcon = () => {
+  const navigation = useNavigation();
+    return (
+      <Image source={LogoutImage} style={styles.images}/>
+    )
+};
+
 export default function MyDrawer() {
   return (
       <Drawer.Navigator
         drawerContent={(props) => <CustomDrawerContent {...props} />}
-        screenOptions={({ route }) => ({
-          drawerIcon: ({ focused, color, size }) => {
-            let iconName;
-            if (route.name === 'ProfileDrawer') iconName = 'person';
-            else if (route.name === 'Settings') iconName = 'settings';
-            else if (route.name === 'Logout') iconName = 'log-out';
-            return <Ionicons name={iconName!} size={size} color={color} />;
-          },
+        screenOptions={() => ({
+          drawerIcon: DrawerIcon,
+          headerTitleAlign: 'center',
+          drawerActiveBackgroundColor: '#5B2C6F',
+          drawerActiveTintColor: 'white',
+          drawerLabelStyle: {fontSize: 20, marginVertical: 10},
         })}
       >
-        <Drawer.Screen name="ProfileDrawer" component={ProfileScreen} />
-        <Drawer.Screen name="Settings" component={SettingsScreen} />
-        <Drawer.Screen name="Logout" component={LogoutComponent} options={{ unmountOnBlur: true }} />
+        <Drawer.Screen name="ProfileDrawer" component={ProfileScreen} options={{drawerIcon: ProfileIcon}}/>
+        <Drawer.Screen name="Settings" component={SettingsScreen} options={{drawerIcon: SettingsIcon}}/>
+        <Drawer.Screen name="Logout" component={LogoutComponent} options={{ drawerIcon: LogoutIcon }} />
       </Drawer.Navigator>
   );
 }
+
+
+const styles = StyleSheet.create({
+  drawerImage: {
+    width: 40,
+    height: 40
+  },
+  images: {
+    width: 30,
+    height: 30
+  },
+})

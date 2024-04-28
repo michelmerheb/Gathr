@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
 import { fetchPosts, clearError } from '../../redux/Slices/UserSlice';
 import { Picker } from '@react-native-picker/picker';
+import { useTheme } from '../../context/ThemeContext';
 
 export default function HomeScreen() {
   const dispatch = useDispatch<AppDispatch>();
@@ -14,6 +15,7 @@ export default function HomeScreen() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [sortBy, setSortBy] = useState('title');
   const pageSize = 25;
+  const { isDarkTheme } = useTheme();
 
   const sortedPosts = useMemo(() => {
     switch (sortBy) {

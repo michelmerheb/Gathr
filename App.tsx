@@ -3,7 +3,8 @@ import NavContainer from "./src/navigation/NavigationContainer";
 import SplashScreen from "react-native-splash-screen";
 import * as Keychain from 'react-native-keychain';
 import { useDispatch } from 'react-redux';
-import { setAuthStatus } from './src/redux/Slices/UserSlice'; // Make sure to create this action in your UserSlice
+import { setAuthStatus } from './src/redux/Slices/UserSlice';
+import { ThemeProvider } from "./src/context/ThemeContext";
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -34,5 +35,9 @@ export default function App() {
     return null;
   }
 
-  return <NavContainer />;
+  return (
+    <ThemeProvider>
+        <NavContainer />
+    </ThemeProvider>
+);
 }
