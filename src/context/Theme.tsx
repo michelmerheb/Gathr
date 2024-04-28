@@ -3,7 +3,7 @@ interface Theme {
     color: string;
 }
 
-export const themes = {
+export const themes: Record<'light' | 'dark', Theme> = {
     light: {
         backgroundColor: '#5B2C6F',
         color: '#000',

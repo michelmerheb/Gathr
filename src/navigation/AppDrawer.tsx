@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Text, SafeAreaView, Image, TouchableOpacity } from 'react-native';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
-import { useNavigation } from '@react-navigation/native';
 import ProfileScreen from '../screens/AppScreens/ProfileScreen';
 import SettingsScreen from '../screens/AppScreens/SettingsScreen';
 import LogoutComponent from '../screens/AppScreens/LogoutScreen';
@@ -9,6 +8,7 @@ import MenuImage from '../assets/menu.png';
 import SettingsImage from '../assets/SettingsIcon.png'
 import ProfileImage from '../assets/ProfileIcon.png'
 import LogoutImage from '../assets/LogoutIcon.jpg'
+
 const Drawer = createDrawerNavigator();
 
 function CustomDrawerContent(props : any) {
@@ -29,28 +29,24 @@ function CustomDrawerContent(props : any) {
 }
 
 const DrawerIcon = () => {
-  const navigation = useNavigation();
   return (
     <Image source={MenuImage} style={styles.drawerImage} />
   );
 };
 
 const ProfileIcon = () => {
-  const navigation = useNavigation();
     return (
       <Image source={ProfileImage} style={styles.images}/>
     )
 }
 
 const SettingsIcon = () => {
-  const navigation = useNavigation();
     return (
       <Image source={SettingsImage} style={styles.images}/>
     )
 };
 
 const LogoutIcon = () => {
-  const navigation = useNavigation();
     return (
       <Image source={LogoutImage} style={styles.images}/>
     )
@@ -61,14 +57,13 @@ export default function MyDrawer() {
       <Drawer.Navigator
         drawerContent={(props) => <CustomDrawerContent {...props} />}
         screenOptions={() => ({
-          drawerIcon: DrawerIcon,
           headerTitleAlign: 'center',
           drawerActiveBackgroundColor: '#5B2C6F',
           drawerActiveTintColor: 'white',
-          drawerLabelStyle: {fontSize: 20, marginVertical: 10},
+          drawerLabelStyle: {fontSize: 25, marginVertical: 10},
         })}
       >
-        <Drawer.Screen name="ProfileDrawer" component={ProfileScreen} options={{drawerIcon: ProfileIcon}}/>
+        <Drawer.Screen name="Profile" component={ProfileScreen} options={{drawerIcon: ProfileIcon}}/>
         <Drawer.Screen name="Settings" component={SettingsScreen} options={{drawerIcon: SettingsIcon}}/>
         <Drawer.Screen name="Logout" component={LogoutComponent} options={{ drawerIcon: LogoutIcon }} />
       </Drawer.Navigator>

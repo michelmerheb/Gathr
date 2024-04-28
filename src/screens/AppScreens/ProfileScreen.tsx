@@ -1,55 +1,82 @@
 import React from 'react'
 import { Text, View, StyleSheet, Image,TouchableOpacity, Dimensions,ScrollView, SafeAreaView } from 'react-native'
-
+import { useTheme, Theme } from '../../context/ThemeContext';
 export default function ProfileScreen({navigation} : any) {
 
+  const { theme } = useTheme();
+
+  const themeStyles = StyleSheet.create({
+    container: {
+      backgroundColor: theme === Theme.Dark ? '#3D1557' : 'white',
+    },
+    profileName: {
+      color: theme === Theme.Dark ? 'white' : 'black',
+      fontSize: 30,
+      textAlign: 'center',
+    },
+    PoststitleText: {
+      textAlign: 'center',
+      color: theme === Theme.Dark ? 'white' : 'black',
+      fontSize: 20,
+      margin: 10,
+      borderBottomWidth: 1,
+      borderColor: 'purple'
+    },
+  })
+  
 
 
-    return (
-      <SafeAreaView style={styles.container}>
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps='handled'> 
-          <View style={styles.imageView}>
-            <Image
-              source={require('../../assets/UserPhoto.jpg')}
-              style={styles.userImage}
-            />
+  return (
+    <SafeAreaView style={themeStyles.container}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps='handled'> 
+        <View style={styles.imageView}>
+          <Image
+            source={require('../../assets/UserPhoto.jpg')}
+            style={styles.userImage}
+          />
+        </View>
+
+        <Text style={themeStyles.profileName}>Philip Rolodex</Text>
+
+        <View style={styles.buttonsView}>
+          <View style={styles.button}>
+            <TouchableOpacity style={{padding: 10,}}>
+              <Text style={styles.buttonText}>Create a post</Text>
+            </TouchableOpacity>
           </View>
-
-          <Text style={styles.profileName}>Philip Rolodex</Text>
-
-          <View style={styles.buttonsView}>
-            <View style={styles.button}>
-              <TouchableOpacity style={{padding: 10,}}>
-                <Text style={styles.buttonText}>Create a post</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.button}>
-              <TouchableOpacity style={{padding: 10,}}>
-                <Text style={styles.buttonText}>Edit Profile</Text>
-              </TouchableOpacity>
-            </View>
+          <View style={styles.button}>
+            <TouchableOpacity style={{padding: 10,}}>
+              <Text style={styles.buttonText}>Edit Profile</Text>
+            </TouchableOpacity>
           </View>
+        </View>
 
-          <Text style={styles.textDesc}>Philip Rolodex is a software engineer and photographer. Currently doing Bachelor of science in software engineering from national university of modern languages, Pakistan.</Text>
-          
-          <View style={styles.numbersView}>
-            <View>
-              <Text style={styles.textBold}>123</Text>
-              <Text style={styles.textNumber}>Posts</Text>
-            </View>
-            <View>
-              <Text style={styles.textBold}>298</Text>
-              <Text style={styles.textNumber}>Followers</Text>
-            </View>
-            <View>
-              <Text style={styles.textBold}>794</Text>
-              <Text style={styles.textNumber}>Following</Text>
-            </View>
+        <Text style={styles.textDesc}>
+          🎉 Philip Rolodex | Event Architect 🌟
+          🌙 Nightlife Visionary & Entrepreneur
+          🚀 Founder @TheNightSkyLounge | @EventureVibes
+          📍NYC | Spinning magic into every event
+          📩 DM for collaborations & bookings
+        </Text>
+        
+        <View style={styles.numbersView}>
+          <View>
+            <Text style={styles.textBold}>123</Text>
+            <Text style={styles.textNumber}>Posts</Text>
           </View>
-          <Text style={styles.PoststitleText}>Posts</Text>
-        </ScrollView>
-      </SafeAreaView>
-    )
+          <View>
+            <Text style={styles.textBold}>298</Text>
+            <Text style={styles.textNumber}>Followers</Text>
+          </View>
+          <View>
+            <Text style={styles.textBold}>794</Text>
+            <Text style={styles.textNumber}>Following</Text>
+          </View>
+        </View>
+        <Text style={themeStyles.PoststitleText}>Posts</Text>
+      </ScrollView>
+    </SafeAreaView>
+  )
 }
 
 const screenWidth = Dimensions.get('window').width;
@@ -57,9 +84,7 @@ const screenHeight = Dimensions.get('window').height;
 
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'white'
-  },
+
   imageView: {
     alignItems: 'center',
   },
@@ -68,11 +93,7 @@ const styles = StyleSheet.create({
     height: screenHeight / 2,
     borderRadius: 20
   },
-  profileName: {
-    color: 'black',
-    fontSize: 30,
-    textAlign: 'center',
-  },
+
   buttonsView: {
     flexDirection: 'row',
     minHeight: 70,
@@ -116,15 +137,6 @@ const styles = StyleSheet.create({
   textNumber: {
     fontSize: 15,
     color: 'white'
-  },
-
-  PoststitleText: {
-    textAlign: 'center',
-    color: 'black',
-    fontSize: 20,
-    margin: 10,
-    borderBottomWidth: 1,
-    borderColor: 'purple'
   },
   
 })

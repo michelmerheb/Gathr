@@ -1,34 +1,15 @@
-import React, { createContext, useState, useContext } from 'react';
-import { ThemeName, themes } from './Theme';
+import { createContext, useContext } from 'react';
+import { themes } from './Theme';
 
-interface ThemeContextType {
-    theme: ThemeName;
-    toggleTheme: () => void;
-    isDarkTheme: boolean; // Added property for isDarkTheme
+export enum Theme {
+    Dark = 'Dark',
+    Light = 'Light',
 }
 
-const ThemeContext = createContext<ThemeContextType>({
-    theme: 'light' as ThemeName, // Set a default theme
-    toggleTheme: () => {}, // Empty function for initial state
-    isDarkTheme: false, // Set default value for isDarkTheme
-});
+export type ThemeContextType = {
+    theme: Theme;
+    setTheme: (Theme: Theme) => void;
+}
 
+export const ThemeContext = createContext<ThemeContextType>({ theme: Theme.Dark, setTheme: theme => console.warn('no theme provider')});
 export const useTheme = () => useContext(ThemeContext);
-
-
-export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-    const [isDarkTheme, setIsDarkTheme] = useState(false);
-  
-    const toggleTheme = () => {
-      setIsDarkTheme(!isDarkTheme);
-    };
-  
-    const currentTheme = isDarkTheme ? 'dark' : 'light';
-
-    return (
-      <ThemeContext.Provider value={{ isDarkTheme, toggleTheme, theme: currentTheme }}>
-        {children}
-      </ThemeContext.Provider>
-    );
-  };
-  

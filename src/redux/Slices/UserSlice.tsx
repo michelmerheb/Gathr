@@ -115,7 +115,7 @@ export const fetchPosts = createAsyncThunk<
       const accessToken = (getState().user.user as User).accessToken;
       const response = await axios.get(`${apiBaseURL}/posts`, {
         headers: { Authorization: `Bearer ${accessToken}` },
-        params: { page, pageSize }
+        params: { page, pageSize : 15 }
       });
       if (response.data) {
         console.log('Fetch successful');
