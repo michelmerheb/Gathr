@@ -5,6 +5,7 @@ import ProfileScreen from '../screens/AppScreens/Profile/ProfileScreen';
 import SettingsScreen from '../screens/AppScreens/Settings/SettingsScreen';
 import LogoutComponent from '../screens/AppScreens/Logout/LogoutScreen';
 import MenuImage from '../assets/menu.png';
+import UserPhoto from '../assets/UserPhoto.jpg'
 import SettingsImage from '../assets/SettingsIcon.png'
 import ProfileImage from '../assets/ProfileIcon.png'
 import LogoutImage from '../assets/LogoutIcon.jpg'
@@ -16,7 +17,7 @@ function CustomDrawerContent(props : any) {
     <DrawerContentScrollView {...props}>
       <SafeAreaView style={{ backgroundColor: '#5B2C6F' }}>
         <View style={{ padding: 20, backgroundColor: '#5B2C6F', alignItems: 'center' }}>
-          <Image source={require('../assets/UserPhoto.jpg')} style={{ width: 80, height: 80, borderRadius: 40, marginBottom: 10 }} />
+          <Image source={UserPhoto} style={{ width: 80, height: 80, borderRadius: 40, marginBottom: 10 }} />
           <Text style={{ color: 'white', fontSize: 18 }}>John Doe</Text>
           <Text style={{ color: 'white', fontSize: 12, opacity: 0.8 }}>john.doe@example.com</Text>
         </View>

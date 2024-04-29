@@ -5,6 +5,7 @@ import FloatingLabelInput from '../../../components/FloatingLableIInput';
 import GenderPicker from '../../../components/GenderPicker';
 import DatePickerr from '../../../components/DatePicker';
 import SubmitButton from '../../../components/SubmitButton';
+import HeaderImage from '../../../assets/LoginHeaderImage.png'
 import { createUser, clearError } from '../../../redux/Slices/UserSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../redux/store';
@@ -42,7 +43,7 @@ const handleSignup = () => {
     <SafeAreaView style={styles.container}>
       <ScrollView>
       <Image 
-        source={require('../../assets/LoginHeaderImage.png')}
+        source={HeaderImage}
         style={styles.backgroundImage}
       />
 

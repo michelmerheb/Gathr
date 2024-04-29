@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import NavContainer from "./src/navigation/NavigationContainer";
 import SplashScreen from "react-native-splash-screen";
 import * as Keychain from 'react-native-keychain';
+import onDisplayNotifications from './src/services/Notifications'
 import { useDispatch } from 'react-redux';
 import { setAuthStatus } from './src/redux/Slices/UserSlice';
 import { Theme, ThemeContext } from "./src/context/ThemeContext";
@@ -32,9 +33,13 @@ export default function App() {
     });
   }, []);
 
+  onDisplayNotifications();
+
   if (loading) {
     return null;
   }
+
+
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>

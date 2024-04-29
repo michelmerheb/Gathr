@@ -2,7 +2,7 @@ import React from 'react'
 import { Text, View, StyleSheet, Image,TouchableOpacity, ScrollView, SafeAreaView } from 'react-native'
 import styles from './ProfileStyles';
 import { useTheme, Theme } from '../../../context/ThemeContext';
-
+import UserPhoto from '../../../assets/UserPhoto.jpg'
 
 export default function ProfileScreen() {
 
@@ -34,7 +34,7 @@ export default function ProfileScreen() {
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps='handled'> 
         <View style={styles.imageView}>
           <Image
-            source={require('../../assets/UserPhoto.jpg')}
+            source={UserPhoto}
             style={styles.userImage}
           />
         </View>

@@ -3,6 +3,7 @@ import { View, Image, Text, TouchableOpacity, Alert } from 'react-native';
 import styles from './LoginStyles';
 import FloatingLabelInput from '../../../components/FloatingLableIInput';
 import SubmitButton from '../../../components/SubmitButton';
+import HeaderImage from '../../../assets/LoginHeaderImage.png'
 import { loginUser, clearError } from '../../../redux/Slices/UserSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../redux/store';
@@ -33,7 +34,7 @@ export default function LoginScreen({navigation} : any) {
   return (
     <View style={styles.container}>
       <Image 
-        source={require('../../assets/LoginHeaderImage.png')}
+        source={HeaderImage}
         style={styles.backgroundImage}
       />
 

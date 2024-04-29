@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     picker: {
       height: 50,
       width: '100%',
-      color: 'purple',
+      color: '#5B2C6F',
     },
     pagination: {
       flexDirection: 'row',
