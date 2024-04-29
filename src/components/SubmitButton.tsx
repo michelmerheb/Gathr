@@ -1,4 +1,3 @@
-import { NavigationAction } from "@react-navigation/native";
 import React from "react"
 import { TouchableOpacity, Text, StyleSheet } from "react-native"
 

@@ -1,8 +1,8 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import LoginScreen from "../screens/AuthScreens/LoginScreen";
-import SignUpScreen from "../screens/AuthScreens/SignupScreen";
-import SettingsScreen from "../screens/AppScreens/SettingsScreen";
+import LoginScreen from "../screens/AuthScreens/Login/LoginScreen";
+import SignUpScreen from "../screens/AuthScreens/Signup/SignupScreen";
+import SettingsScreen from "../screens/AppScreens/Settings/SettingsScreen";
 import MyTab from "./AppTab";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";

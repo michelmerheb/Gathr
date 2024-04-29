@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, ActivityIndicator, FlatList, RefreshControl } from "react-native";
-import EventsContainer from "../../components/EventsComponent";
-import { useTheme, Theme } from "../../context/ThemeContext";
+import EventsContainer from "../../../components/EventsComponent";
+import { useTheme, Theme } from "../../../context/ThemeContext";
 
 export default function HomeScreen() {
   const [events, setEvents] = useState([]);

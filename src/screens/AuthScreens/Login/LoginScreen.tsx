@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Image, Text, View, Dimensions, TouchableOpacity, Alert } from 'react-native';
-import FloatingLabelInput from '../../components/FloatingLableIInput';
-import SubmitButton from '../../components/SubmitButton';
-import { loginUser, clearError } from '../../redux/Slices/UserSlice';
+import { View, Image, Text, TouchableOpacity, Alert } from 'react-native';
+import styles from './LoginStyles';
+import FloatingLabelInput from '../../../components/FloatingLableIInput';
+import SubmitButton from '../../../components/SubmitButton';
+import { loginUser, clearError } from '../../../redux/Slices/UserSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../redux/store';
+import { AppDispatch, RootState } from '../../../redux/store';
 
 export default function LoginScreen({navigation} : any) {
   const [email, setEmail] = useState('');
@@ -62,40 +63,4 @@ export default function LoginScreen({navigation} : any) {
     </View>
   );
 };
-
-const DeviceWidth = Dimensions.get('window').width;
-const DeviceHeight = Dimensions.get('window').height;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#6420AA',
-  },
-  backgroundImage: {
-    width: DeviceWidth,
-    height: DeviceHeight / 3,
-  },
-  BoxContainer: {
-    flex: 1,
-    borderRadius: 15,
-    alignItems: 'center',
-    backgroundColor: 'white'
-  },
-  SigninText: {
-    color:'black',
-    fontSize: 35,
-    marginTop: 40,
-    fontWeight: 'bold',
-  },
-  signupText: {
-    color: 'black',
-    fontSize: 15
-  },
-  errorText: {
-    color: 'red',
-    fontSize: 15,
-    marginHorizontal: 50,
-  },
-
-});
 

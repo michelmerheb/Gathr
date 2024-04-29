@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, StyleSheet, Image, Text, View, Dimensions, Alert, ScrollView } from 'react-native';
-import FloatingLabelInput from '../../components/FloatingLableIInput';
-import GenderPicker from '../../components/GenderPicker';
-import DatePickerr from '../../components/DatePicker';
-import SubmitButton from '../../components/SubmitButton';
-import { createUser, clearError } from '../../redux/Slices/UserSlice';
+import { SafeAreaView, Image, Text, View, Alert, ScrollView } from 'react-native';
+import styles from './SignupStyles';
+import FloatingLabelInput from '../../../components/FloatingLableIInput';
+import GenderPicker from '../../../components/GenderPicker';
+import DatePickerr from '../../../components/DatePicker';
+import SubmitButton from '../../../components/SubmitButton';
+import { createUser, clearError } from '../../../redux/Slices/UserSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../redux/store';
+import { AppDispatch, RootState } from '../../../redux/store';
 
 export default function LoginScreen({navigation} : any) {
   const [email, setEmail] = useState('');
@@ -83,34 +84,3 @@ const handleSignup = () => {
   );
 };
 
-const DeviceWidth = Dimensions.get('window').width;
-const DeviceHeight = Dimensions.get('window').height;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#6420AA',
-  },
-  backgroundImage: {
-    width: DeviceWidth,
-    height: DeviceHeight / 3,
-  },
-  BoxContainer: {
-    flex: 1,
-    borderRadius: 15,
-    alignItems: 'center',
-    backgroundColor: 'white'
-  },
-  SigninText: {
-    color:'black',
-    fontSize: 35,
-    marginTop: 40,
-    fontWeight: 'bold',
-  },
-  errorText: {
-    color: 'red',
-    fontSize: 15,
-    marginHorizontal: 50,
-  },
-
-});

@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
-import { Text, View, TouchableOpacity, ActivityIndicator, StyleSheet, SafeAreaView, FlatList, RefreshControl, Dimensions } from 'react-native';
+import { Text, View, TouchableOpacity, ActivityIndicator, StyleSheet, SafeAreaView, FlatList, RefreshControl } from 'react-native';
+import styles from './NewsStyles';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../redux/store';
-import { fetchPosts, clearError } from '../../redux/Slices/UserSlice';
+import { AppDispatch, RootState } from '../../../redux/store';
+import { fetchPosts, clearError } from '../../../redux/Slices/UserSlice';
 import { Picker } from '@react-native-picker/picker';
-import { useTheme, Theme } from '../../context/ThemeContext';
-import PostContainer from '../../components/PostComponent';
-import { PostProps } from '../../components/PostComponent';
+import { useTheme, Theme } from '../../../context/ThemeContext';
+import PostContainer from '../../../components/PostComponent';
+import { PostProps } from '../../../components/PostComponent';
 
 export default function NewsScreen() {
   const dispatch = useDispatch<AppDispatch>();
@@ -112,9 +113,6 @@ export default function NewsScreen() {
     },
   })
   
-  
-
-
   return (
     <SafeAreaView style={themeStyles.container}>
         {loading && <ActivityIndicator size="large" color="purple" />}
@@ -151,44 +149,6 @@ export default function NewsScreen() {
   );
 }
 
-const screenWidth = Dimensions.get('window').width;
 
 
-const styles = StyleSheet.create({
-  pickerContainer: {
-    marginVertical: 10,
-    width: screenWidth / 3,
-    borderWidth: 1,
-    borderColor: 'purple',
-    backgroundColor: 'white',
-    borderRadius: 10,
-  },
-  picker: {
-    height: 50,
-    width: '100%',
-    color: 'purple',
-  },
 
-  pagination: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 20,
-    justifyContent: 'space-evenly'
-  },
-  button: {
-    backgroundColor: "white",
-    padding: 10,
-    borderRadius: 10
-  },
-  buttonText: {
-    color: 'purple'
-  },
-  pageNumber: {
-    color: 'white'
-  },
-  error: {
-    color: 'white',
-    fontSize: 25,
-    textAlign: 'center'
-  },
-});

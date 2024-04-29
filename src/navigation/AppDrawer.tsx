@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, StyleSheet, Text, SafeAreaView, Image, TouchableOpacity } from 'react-native';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
-import ProfileScreen from '../screens/AppScreens/ProfileScreen';
-import SettingsScreen from '../screens/AppScreens/SettingsScreen';
-import LogoutComponent from '../screens/AppScreens/LogoutScreen';
+import ProfileScreen from '../screens/AppScreens/Profile/ProfileScreen';
+import SettingsScreen from '../screens/AppScreens/Settings/SettingsScreen';
+import LogoutComponent from '../screens/AppScreens/Logout/LogoutScreen';
 import MenuImage from '../assets/menu.png';
 import SettingsImage from '../assets/SettingsIcon.png'
 import ProfileImage from '../assets/ProfileIcon.png'
