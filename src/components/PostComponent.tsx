@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet, Dimensions} from 'react-native';
 import { useTheme, Theme } from '../context/ThemeContext';
 
 export interface PostProps {
@@ -14,9 +14,8 @@ export default function PostContainer({title, description, image_url} : PostProp
 
     const themeStyles = StyleSheet.create({
         postContainer: {
-            flexDirection: 'row',
             alignItems: 'center',
-            padding: 10,
+            padding: 20,
             marginVertical: 10,
             backgroundColor: theme === Theme.Dark ? 'darkgrey' : 'white',
             borderRadius: 10,
@@ -40,10 +39,13 @@ export default function PostContainer({title, description, image_url} : PostProp
   );
 };
 
+const DeviceWidth = Dimensions.get('window').width;
+const DeviceHeight = Dimensions.get('window').height;
+
 const styles = StyleSheet.create({
   postImage: {
-    width: 150,
-    height: 150,
+    width: DeviceWidth / 1.5,
+    height: DeviceHeight / 3,
     marginRight: 10,
   },
   postinfo: {

@@ -72,7 +72,7 @@ export default function NewsScreen() {
   
 
   const renderPost = ({item}: {item: PostProps}) => (
-    <View style={themeStyles.postsContainer}>
+    <TouchableOpacity style={themeStyles.postsContainer}>
       <PostContainer
         key={item._id}
         image_url={item.image_url}
@@ -80,7 +80,7 @@ export default function NewsScreen() {
         description={item.description}
         _id={item._id}
       />
-    </View>
+    </TouchableOpacity>
   );
 
 

@@ -34,7 +34,7 @@ export default function HomeScreen() {
   };
 
   const onRefresh = () => {
-    fetchData(true);  // Pass true to indicate this is a refresh
+    fetchData(true);
   };
 
   const Themestyles = StyleSheet.create({

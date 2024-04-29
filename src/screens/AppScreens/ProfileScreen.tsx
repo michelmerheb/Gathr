@@ -1,6 +1,8 @@
 import React from 'react'
 import { Text, View, StyleSheet, Image,TouchableOpacity, Dimensions,ScrollView, SafeAreaView } from 'react-native'
 import { useTheme, Theme } from '../../context/ThemeContext';
+
+
 export default function ProfileScreen({navigation} : any) {
 
   const { theme } = useTheme();
@@ -125,7 +127,7 @@ const styles = StyleSheet.create({
     color: 'black',
     textAlign: 'center',
     borderTopWidth: 1,
-    borderTopColor: 'skyblue'
+    borderTopColor: '#5B2C6F'
   },
   numbersView: {
     flexDirection: 'row',

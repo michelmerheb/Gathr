@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
+import {View, Text, TouchableOpacity, Image, StyleSheet, Dimensions} from 'react-native';
 import { useTheme, Theme } from '../context/ThemeContext';
 
 export interface EventsProps {
@@ -16,7 +16,7 @@ export default function EventsContainer({id, title, description, image} : Events
     const themeStyles = StyleSheet.create({
         container: {
             flex: 1,
-            padding: 20,
+            width: DeviceWidth / 1.1,
             margin: 15,
             borderRadius: 20,
             justifyContent: 'center',
@@ -45,16 +45,18 @@ export default function EventsContainer({id, title, description, image} : Events
     )
 }
 
-const styles = StyleSheet.create({
+const DeviceWidth = Dimensions.get('window').width;
+const DeviceHeight = Dimensions.get('window').height;
 
+const styles = StyleSheet.create({
     eventInfo:{
         margin: 10,
         alignItems: 'center'
     },
     eventImage: {
-        width: 400,
-        height: 250,
-
+        width: DeviceWidth / 1.2,
+        height: DeviceHeight / 3,
+        resizeMode: 'contain'
     },
     eventDetails: {
         marginTop: 10

@@ -26,7 +26,7 @@ export default function SettingsScreen() {
     <View style={themeStyles.container}>
 
       <View style={styles.setting}>
-        <View>
+        <View style={styles.settingsNames}>
             <Text style={styles.settingTitle}>Push Notifications</Text>
             <Text style={styles.settingSubTitle}>Receive Push Notifications from Gathr</Text>
         </View>
@@ -37,7 +37,7 @@ export default function SettingsScreen() {
         />
       </View>
       <View style={styles.setting}>
-        <View>
+        <View style={styles.settingsNames}>
             <Text style={styles.settingTitle}>Email Notifications</Text>
             <Text style={styles.settingSubTitle}>Receive Email Notifications from Gathr regarding Events and more.</Text>
         </View>
@@ -48,7 +48,7 @@ export default function SettingsScreen() {
         />
       </View>
       <View style={styles.setting}>
-        <View>
+        <View style={styles.settingsNames}>
             <Text style={styles.settingTitle}>Location Services</Text>
             <Text style={styles.settingSubTitle}>Allow us to rach your location, this helps to find events easier.</Text>
         </View>
@@ -58,7 +58,7 @@ export default function SettingsScreen() {
         />
       </View>
       <View style={styles.setting}>
-        <View>
+        <View style={styles.settingsNames}>
             <Text style={styles.settingTitle}>Dark Theme</Text>
             <Text style={styles.settingSubTitle}>Turn on or off the Dark Theme</Text>
         </View>
@@ -81,6 +81,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 20,
+  },
+  settingsNames: {
+    flex: 0.8
   },
   settingTitle: {
     color: '#fff',

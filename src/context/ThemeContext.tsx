@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import { themes } from './Theme';
+import { themes, ThemeName } from './theme';
 
 export enum Theme {
     Dark = 'Dark',
