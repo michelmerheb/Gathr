@@ -1,39 +1,52 @@
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
-import { Text, View, TouchableOpacity, ActivityIndicator, StyleSheet, SafeAreaView, FlatList, RefreshControl } from 'react-native';
+import React, {useEffect, useState, useMemo, useCallback} from 'react';
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  ActivityIndicator,
+  StyleSheet,
+  SafeAreaView,
+  FlatList,
+  RefreshControl,
+} from 'react-native';
 import styles from './NewsStyles';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../../redux/store';
-import { fetchPosts, clearError } from '../../../redux/Slices/UserSlice';
-import { Picker } from '@react-native-picker/picker';
-import { useTheme, Theme } from '../../../context/ThemeContext';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppDispatch, RootState} from '../../../redux/store';
+import {fetchPosts, clearError} from '../../../redux/Slices/PostsSlice';
+import {Picker} from '@react-native-picker/picker';
+import {useTheme, Theme} from '../../../context/ThemeContext';
 import PostContainer from '../../../components/PostComponent';
-import { PostProps } from '../../../components/PostComponent';
+import {PostProps} from '../../../components/PostComponent';
 
 export default function NewsScreen() {
   const dispatch = useDispatch<AppDispatch>();
-  const { posts, loading, error, pagination } = useSelector((state: RootState) => state.user);
+  const {posts, loading, error, pagination} = useSelector(
+    (state: RootState) => state.posts,
+  );
 
   const [currentPage, setCurrentPage] = useState(1);
   const [reachedEnd, setReachedEnd] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [sortBy, setSortBy] = useState('title');
   const pageSize = 25;
-  const { theme } = useTheme();
+  const {theme} = useTheme();
 
   const sortedPosts = useMemo(() => {
     switch (sortBy) {
       case 'title':
         return [...posts].sort((a, b) => a.title.localeCompare(b.title));
       case 'date':
-        return [...posts].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        return [...posts].sort(
+          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+        );
       default:
         return posts;
     }
   }, [posts, sortBy]);
 
   useEffect(() => {
-    dispatch(clearError())
-  }, [dispatch])
+    dispatch(clearError());
+  }, [dispatch]);
 
   useEffect(() => {
     if (!isRefreshing) {
@@ -42,7 +55,7 @@ export default function NewsScreen() {
   }, [currentPage, pageSize, isRefreshing]);
 
   const handleFetchPosts = (page: number, pageSize: number) => {
-    dispatch(fetchPosts({ page, pageSize }));
+    dispatch(fetchPosts({page, pageSize}));
   };
 
   const handleNextPage = () => {
@@ -64,13 +77,12 @@ export default function NewsScreen() {
   const onRefresh = useCallback(async () => {
     setIsRefreshing(true);
     try {
-      await dispatch(fetchPosts({ page: 1, pageSize })).unwrap();
+      await dispatch(fetchPosts({page: 1, pageSize})).unwrap();
     } catch (error) {
       console.error('Error refreshing posts:', error);
     }
     setIsRefreshing(false);
   }, [dispatch, pageSize]);
-  
 
   const renderPost = ({item}: {item: PostProps}) => (
     <TouchableOpacity style={themeStyles.postsContainer}>
@@ -83,7 +95,6 @@ export default function NewsScreen() {
       />
     </TouchableOpacity>
   );
-
 
   const renderPicker = () => {
     if (posts.length > 0 && !error) {
@@ -111,14 +122,18 @@ export default function NewsScreen() {
     postsContainer: {
       paddingHorizontal: 15,
     },
-  })
-  
+  });
+
   return (
     <SafeAreaView style={themeStyles.container}>
-        {loading && <ActivityIndicator size="large" color="purple" />}
-        {error && <Text style={styles.error}>Oops! Something went wrong. Please try to refresh.</Text>}
+      {loading && <ActivityIndicator size="large" color="purple" />}
+      {error && (
+        <Text style={styles.error}>
+          Oops! Something went wrong. Please try to refresh.
+        </Text>
+      )}
 
-        <FlatList
+      <FlatList
         data={sortedPosts}
         renderItem={renderPost}
         keyExtractor={(item, index) =>
@@ -126,29 +141,32 @@ export default function NewsScreen() {
         }
         onEndReached={handleEndReached}
         refreshControl={
-          <RefreshControl
-            refreshing={isRefreshing}
-            onRefresh={onRefresh}
-          />
+          <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
         }
         ListHeaderComponent={renderPicker}
-        ListFooterComponent={() => (
-          reachedEnd && pagination &&
-          <View style={styles.pagination}>
-            <TouchableOpacity style={styles.button} onPress={handlePreviousPage} disabled={!pagination?.hasPrevPage}>
-              <Text style={styles.buttonText}>PREVIOUS</Text>
-            </TouchableOpacity>
-            <Text style={styles.pageNumber}>Page {currentPage} of {pagination?.totalPages}</Text>
-            <TouchableOpacity style={styles.button} onPress={handleNextPage} disabled={!pagination?.hasNextPage}>
-              <Text style={styles.buttonText}>NEXT</Text>
-            </TouchableOpacity>
-          </View>
-        )}
+        ListFooterComponent={() =>
+          reachedEnd &&
+          pagination && (
+            <View style={styles.pagination}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={handlePreviousPage}
+                disabled={!pagination?.hasPrevPage}>
+                <Text style={styles.buttonText}>PREVIOUS</Text>
+              </TouchableOpacity>
+              <Text style={styles.pageNumber}>
+                Page {currentPage} of {pagination?.totalPages}
+              </Text>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={handleNextPage}
+                disabled={!pagination?.hasNextPage}>
+                <Text style={styles.buttonText}>NEXT</Text>
+              </TouchableOpacity>
+            </View>
+          )
+        }
       />
     </SafeAreaView>
   );
 }
-
-
-
-

@@ -33,7 +33,9 @@ export default function App() {
     });
   }, []);
 
-  onDisplayNotifications();
+  useEffect(() => {
+    onDisplayNotifications();
+  }, [])
 
   if (loading) {
     return null;

@@ -1,15 +1,15 @@
-import { StyleSheet } from "react-native";
+import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
-    container: { 
-      flex: 1, 
-      justifyContent: 'center', 
-      alignItems: 'center' 
-    },
-    logoutText: {
-      color: 'black',
-      fontSize: 20
-    }
-  })
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  logoutText: {
+    color: 'black',
+    fontSize: 20,
+  },
+});
 
 export default styles;

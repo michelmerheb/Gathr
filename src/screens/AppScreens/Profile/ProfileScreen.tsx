@@ -1,12 +1,19 @@
-import React from 'react'
-import { Text, View, StyleSheet, Image,TouchableOpacity, ScrollView, SafeAreaView } from 'react-native'
+import React from 'react';
+import {
+  Text,
+  View,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  SafeAreaView,
+} from 'react-native';
 import styles from './ProfileStyles';
-import { useTheme, Theme } from '../../../context/ThemeContext';
-import UserPhoto from '../../../assets/UserPhoto.jpg'
+import {useTheme, Theme} from '../../../context/ThemeContext';
+import UserPhoto from '../../../assets/UserPhoto.jpg';
 
 export default function ProfileScreen() {
-
-  const { theme } = useTheme();
+  const {theme} = useTheme();
 
   const themeStyles = StyleSheet.create({
     container: {
@@ -23,45 +30,47 @@ export default function ProfileScreen() {
       fontSize: 20,
       margin: 10,
       borderBottomWidth: 1,
-      borderColor: 'purple'
+      borderColor: 'purple',
     },
-  })
-  
-
+    textDesc: {
+      fontSize: 15,
+      color: theme == Theme.Dark ? 'white' : 'black',
+      textAlign: 'center',
+      borderTopWidth: 1,
+      borderTopColor: '#5B2C6F',
+    },
+  });
 
   return (
     <SafeAreaView style={themeStyles.container}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps='handled'> 
+      <ScrollView
+        contentContainerStyle={{flexGrow: 1}}
+        keyboardShouldPersistTaps="handled">
         <View style={styles.imageView}>
-          <Image
-            source={UserPhoto}
-            style={styles.userImage}
-          />
+          <Image source={UserPhoto} style={styles.userImage} />
         </View>
 
         <Text style={themeStyles.profileName}>Philip Rolodex</Text>
 
         <View style={styles.buttonsView}>
           <View style={styles.button}>
-            <TouchableOpacity style={{padding: 10,}}>
+            <TouchableOpacity style={{padding: 10}}>
               <Text style={styles.buttonText}>Create a post</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.button}>
-            <TouchableOpacity style={{padding: 10,}}>
+            <TouchableOpacity style={{padding: 10}}>
               <Text style={styles.buttonText}>Edit Profile</Text>
             </TouchableOpacity>
           </View>
         </View>
 
-        <Text style={styles.textDesc}>
-          🎉 Philip Rolodex | Event Architect 🌟
-          🌙 Nightlife Visionary & Entrepreneur
-          🚀 Founder @TheNightSkyLounge | @EventureVibes
-          📍NYC | Spinning magic into every event
-          📩 DM for collaborations & bookings
+        <Text style={themeStyles.textDesc}>
+          🎉 Philip Rolodex | Event Architect 🌟 🌙 Nightlife Visionary &
+          Entrepreneur 🚀 Founder @TheNightSkyLounge | @EventureVibes 📍NYC |
+          Spinning magic into every event 📩 DM for collaborations & bookings
         </Text>
-        
+
         <View style={styles.numbersView}>
           <View>
             <Text style={styles.textBold}>123</Text>
@@ -79,6 +88,5 @@ export default function ProfileScreen() {
         <Text style={themeStyles.PoststitleText}>Posts</Text>
       </ScrollView>
     </SafeAreaView>
-  )
+  );
 }
-
