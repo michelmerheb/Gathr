@@ -10,7 +10,8 @@ const styles = StyleSheet.create({
   userImage: {
     width: screenWidth,
     height: screenHeight / 2,
-    borderRadius: 20,
+    borderBottomLeftRadius: 30, // radius for bottom left corner
+    borderBottomRightRadius: 30,
   },
 
   buttonsView: {

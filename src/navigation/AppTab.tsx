@@ -1,13 +1,17 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Config from 'react-native-config';
 import HomeScreen from '../screens/AppScreens/Home/HomeScreen';
 import NewsScreen from '../screens/AppScreens/News/NewsScreen';
 import ProfileDrawer from './AppDrawer';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useTheme, Theme} from '../context/ThemeContext';
 
 const Tab = createBottomTabNavigator();
 
 const MyTab = () => {
+  const {theme} = useTheme();
+
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -23,12 +27,19 @@ const MyTab = () => {
           }
           return <Ionicons name={iconName!} size={size} color={color} />;
         },
+
         tabBarShowLabel: false,
         tabBarStyle: {
           height: 70,
         },
         tabBarActiveTintColor: 'purple',
         tabBarInactiveTintColor: 'gray',
+        headerTitleStyle: {
+          fontSize: 25,
+        },
+        headerStyle: {
+          backgroundColor: theme == Theme.Dark ? 'darkgrey' : 'white',
+        },
       })}>
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="News" component={NewsScreen} />

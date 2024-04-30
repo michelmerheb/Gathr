@@ -15,6 +15,7 @@ import {
 import ProfileScreen from '../screens/AppScreens/Profile/ProfileScreen';
 import SettingsScreen from '../screens/AppScreens/Settings/SettingsScreen';
 import LogoutComponent from '../screens/AppScreens/Logout/LogoutScreen';
+import {useTheme, Theme} from '../context/ThemeContext';
 import MenuImage from '../assets/menu.png';
 import UserPhoto from '../assets/UserPhoto.jpg';
 import SettingsImage from '../assets/SettingsIcon.png';
@@ -67,6 +68,8 @@ const LogoutIcon = () => {
 };
 
 export default function MyDrawer() {
+  const {theme} = useTheme();
+
   return (
     <Drawer.Navigator
       drawerContent={props => <CustomDrawerContent {...props} />}
@@ -75,6 +78,12 @@ export default function MyDrawer() {
         drawerActiveBackgroundColor: '#5B2C6F',
         drawerActiveTintColor: 'white',
         drawerLabelStyle: {fontSize: 25, marginVertical: 10},
+        headerTitleStyle: {
+          fontSize: 25,
+        },
+        headerStyle: {
+          backgroundColor: theme == Theme.Dark ? 'darkgrey' : 'white',
+        },
       })}>
       <Drawer.Screen
         name="Profile"
