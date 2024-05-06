@@ -77,6 +77,7 @@ export default function MyDrawer() {
         },
         headerStyle: {
           backgroundColor: theme == Theme.Dark ? 'darkgrey' : 'white',
+          height: 50,
         },
       })}>
       <Drawer.Screen

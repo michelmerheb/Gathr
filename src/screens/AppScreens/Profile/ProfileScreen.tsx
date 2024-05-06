@@ -52,17 +52,10 @@ export default function ProfileScreen() {
 
         <Text style={themeStyles.profileName}>Philip Rolodex</Text>
 
-        <View style={styles.buttonsView}>
-          <View style={styles.button}>
-            <TouchableOpacity style={{padding: 10}}>
-              <Text style={styles.buttonText}>Create a post</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.button}>
-            <TouchableOpacity style={{padding: 10}}>
-              <Text style={styles.buttonText}>Edit Profile</Text>
-            </TouchableOpacity>
-          </View>
+        <View style={styles.button}>
+          <TouchableOpacity style={{padding: 5}}>
+            <Text style={styles.buttonText}>Edit Profile</Text>
+          </TouchableOpacity>
         </View>
 
         <Text style={themeStyles.textDesc}>
@@ -85,7 +78,7 @@ export default function ProfileScreen() {
             <Text style={styles.textNumber}>Following</Text>
           </View>
         </View>
-        <Text style={themeStyles.PoststitleText}>Posts</Text>
+        <Text style={themeStyles.PoststitleText}>Events</Text>
       </ScrollView>
     </SafeAreaView>
   );

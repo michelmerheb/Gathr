@@ -1,27 +1,25 @@
 import {StyleSheet, Dimensions} from 'react-native';
 
-const screenWidth = Dimensions.get('window').width;
-const screenHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
+const DeviceHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   imageView: {
     alignItems: 'center',
   },
   userImage: {
-    width: screenWidth,
-    height: screenHeight / 2,
+    width: DeviceWidth,
+    height: DeviceHeight / 2,
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
   },
 
-  buttonsView: {
-    flexDirection: 'row',
-    minHeight: 70,
-    justifyContent: 'center',
-  },
   button: {
-    margin: 10,
-    flex: 0.5,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: DeviceWidth * 0.3,
+    marginVertical: 10,
     backgroundColor: '#5B2C6F',
     borderRadius: 10,
   },

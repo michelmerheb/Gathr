@@ -26,7 +26,6 @@ const MyTab = () => {
           }
           return <Ionicons name={iconName!} size={size} color={color} />;
         },
-
         tabBarShowLabel: false,
         tabBarStyle: {
           height: 70,
@@ -38,6 +37,7 @@ const MyTab = () => {
         },
         headerStyle: {
           backgroundColor: theme == Theme.Dark ? 'darkgrey' : 'white',
+          height: 50,
         },
       })}>
       <Tab.Screen name="Home" component={HomeScreen} />
