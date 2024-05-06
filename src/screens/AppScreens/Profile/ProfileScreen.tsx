@@ -39,6 +39,13 @@ export default function ProfileScreen() {
       borderTopWidth: 1,
       borderTopColor: '#5B2C6F',
     },
+    eventsText: {
+      color: theme == Theme.Dark ? 'white' : '#5B2C6F',
+      textAlign: 'center',
+      fontSize: 20,
+      marginTop: 40,
+      fontWeight: 'bold',
+    },
   });
 
   return (
@@ -52,12 +59,6 @@ export default function ProfileScreen() {
 
         <Text style={themeStyles.profileName}>Philip Rolodex</Text>
 
-        <View style={styles.button}>
-          <TouchableOpacity style={{padding: 5}}>
-            <Text style={styles.buttonText}>Edit Profile</Text>
-          </TouchableOpacity>
-        </View>
-
         <Text style={themeStyles.textDesc}>
           🎉 Philip Rolodex | Event Architect 🌟 🌙 Nightlife Visionary &
           Entrepreneur 🚀 Founder @TheNightSkyLounge | @EventureVibes 📍NYC |
@@ -65,10 +66,6 @@ export default function ProfileScreen() {
         </Text>
 
         <View style={styles.numbersView}>
-          <View>
-            <Text style={styles.textBold}>123</Text>
-            <Text style={styles.textNumber}>Posts</Text>
-          </View>
           <View>
             <Text style={styles.textBold}>298</Text>
             <Text style={styles.textNumber}>Followers</Text>
@@ -79,6 +76,7 @@ export default function ProfileScreen() {
           </View>
         </View>
         <Text style={themeStyles.PoststitleText}>Events</Text>
+        <Text style={themeStyles.eventsText}>No Events right now</Text>
       </ScrollView>
     </SafeAreaView>
   );
