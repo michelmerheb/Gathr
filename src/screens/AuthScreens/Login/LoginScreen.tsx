@@ -61,7 +61,6 @@ export default function LoginScreen({navigation}: any) {
                 styles.signupText,
                 {color: 'purple', fontWeight: 'bold'},
               ]}>
-              {' '}
               Sign Up
             </Text>
           </TouchableOpacity>

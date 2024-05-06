@@ -1,6 +1,13 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {Animated, StyleSheet, TextInput, View, Dimensions} from 'react-native';
-
+import {
+  Animated,
+  StyleSheet,
+  TextInput,
+  View,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 export default function FloatingLabelInput({
   label,
   value,
@@ -8,6 +15,7 @@ export default function FloatingLabelInput({
   secureTextEntry,
 }: any) {
   const [isFocused, setIsFocused] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(!secureTextEntry);
   const labelAnimation = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -43,9 +51,22 @@ export default function FloatingLabelInput({
         onChangeText={onChangeText}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
-        secureTextEntry={secureTextEntry}
+        secureTextEntry={!passwordVisible}
         blurOnSubmit
       />
+      {secureTextEntry && (
+        <TouchableOpacity
+          style={styles.icon}
+          onPress={() => {
+            setPasswordVisible(!passwordVisible);
+          }}>
+          <Ionicons
+            name={passwordVisible ? 'eye-off' : 'eye'}
+            size={20}
+            color="grey"
+          />
+        </TouchableOpacity>
+      )}
 
       <Animated.Text style={labelStyle}>{label}</Animated.Text>
     </View>
@@ -53,7 +74,6 @@ export default function FloatingLabelInput({
 }
 
 const DeviceWidth = Dimensions.get('window').width;
-const DeviceHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   inputContainer: {
@@ -73,5 +93,13 @@ const styles = StyleSheet.create({
     color: '#000',
     zIndex: 1,
     paddingHorizontal: 10,
+  },
+  icon: {
+    position: 'absolute',
+    right: 10,
+    padding: 10,
+    zIndex: 3,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

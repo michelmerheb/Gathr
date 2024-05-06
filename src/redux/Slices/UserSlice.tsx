@@ -4,14 +4,13 @@ import Config from 'react-native-config';
 import {RootState} from '../store';
 import * as Keychain from 'react-native-keychain';
 
-export interface User {
-  message: string;
+export interface Token {
   accessToken: string;
   refreshToken: string;
 }
 
 interface UserState {
-  user: User | null;
+  user: Token | null;
   loading: boolean;
   error: string | null | undefined;
   isAuth: boolean;
@@ -26,7 +25,7 @@ interface AuthPayload {
 const apiBaseURL = Config.REACT_APP_API_BASE_URL;
 
 export const createUser = createAsyncThunk<
-  User,
+  Token,
   AuthPayload,
   {rejectValue: string}
 >('user/create', async (userData, {rejectWithValue}) => {
@@ -52,7 +51,7 @@ export const createUser = createAsyncThunk<
 });
 
 export const loginUser = createAsyncThunk<
-  User,
+  Token,
   AuthPayload,
   {rejectValue: string}
 >('user/login', async (loginData, {rejectWithValue}) => {
@@ -78,7 +77,7 @@ export const loginUser = createAsyncThunk<
 });
 
 export const refreshToken = createAsyncThunk<
-  User,
+  Token,
   {refreshToken: string},
   {state: RootState; rejectValue: string}
 >('user/refresh', async ({refreshToken}, {rejectWithValue}) => {
@@ -138,7 +137,7 @@ const userSlice = createSlice({
       .addCase(createUser.pending, state => {
         state.loading = true;
       })
-      .addCase(createUser.fulfilled, (state, action: PayloadAction<User>) => {
+      .addCase(createUser.fulfilled, (state, action: PayloadAction<Token>) => {
         state.user = action.payload;
         state.isAuth = true;
         state.loading = false;
@@ -155,7 +154,7 @@ const userSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(loginUser.fulfilled, (state, action: PayloadAction<User>) => {
+      .addCase(loginUser.fulfilled, (state, action: PayloadAction<Token>) => {
         state.user = action.payload;
         state.isAuth = true;
         state.loading = false;
@@ -172,10 +171,13 @@ const userSlice = createSlice({
           state.isAuth = false;
         },
       )
-      .addCase(refreshToken.fulfilled, (state, action: PayloadAction<User>) => {
-        state.user = action.payload;
-        state.isAuth = true;
-      })
+      .addCase(
+        refreshToken.fulfilled,
+        (state, action: PayloadAction<Token>) => {
+          state.user = action.payload;
+          state.isAuth = true;
+        },
+      )
       .addCase(
         refreshToken.rejected,
         (state, action: PayloadAction<string | null | undefined>) => {

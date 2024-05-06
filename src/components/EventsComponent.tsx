@@ -7,7 +7,6 @@ import {
   StyleSheet,
   Dimensions,
 } from 'react-native';
-import {useTheme, Theme} from '../context/ThemeContext';
 
 export interface EventsProps {
   id: string;
@@ -22,22 +21,8 @@ export default function EventsContainer({
   description,
   image,
 }: EventsProps) {
-  const {theme} = useTheme();
-
-  const themeStyles = StyleSheet.create({
-    container: {
-      flex: 1,
-      width: DeviceWidth / 1.1,
-      margin: 15,
-      borderRadius: 20,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: 'rgba(0,0,0,0.5)',
-    },
-  });
-
   return (
-    <TouchableOpacity style={themeStyles.container}>
+    <TouchableOpacity style={styles.container}>
       <View style={styles.eventInfo}>
         {image ? (
           <Image style={styles.eventImage} source={{uri: image}} />
@@ -57,6 +42,15 @@ const DeviceWidth = Dimensions.get('window').width;
 const DeviceHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: DeviceWidth / 1.1,
+    margin: 15,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
   eventInfo: {
     margin: 10,
     alignItems: 'center',

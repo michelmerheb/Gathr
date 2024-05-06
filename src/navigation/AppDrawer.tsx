@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  SafeAreaView,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import {View, StyleSheet, Text, SafeAreaView, Image} from 'react-native';
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -74,6 +67,7 @@ export default function MyDrawer() {
     <Drawer.Navigator
       drawerContent={props => <CustomDrawerContent {...props} />}
       screenOptions={() => ({
+        drawerIcon: DrawerIcon,
         headerTitleAlign: 'center',
         drawerActiveBackgroundColor: '#5B2C6F',
         drawerActiveTintColor: 'white',

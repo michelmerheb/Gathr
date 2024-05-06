@@ -28,7 +28,7 @@ export default function NewsScreen() {
   const [reachedEnd, setReachedEnd] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [sortBy, setSortBy] = useState('title');
-  const pageSize = 25;
+  const pageSize = 15;
   const {theme} = useTheme();
 
   const sortedPosts = useMemo(() => {
