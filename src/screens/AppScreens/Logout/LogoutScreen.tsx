@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Text, View, StyleSheet, ActivityIndicator} from 'react-native';
+import {Text, View, ActivityIndicator} from 'react-native';
 import styles from './LogoutStyles';
 import {logout} from '../../../redux/Slices/UserSlice';
 import {useDispatch} from 'react-redux';
