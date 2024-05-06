@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   View,
   StyleSheet,
@@ -18,33 +18,38 @@ export default function HomeScreen() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const {theme} = useTheme();
 
+  const fetchData = useCallback(
+    async (isRefresh: boolean) => {
+      if (!isRefresh) {
+        setIsLoading(true);
+      } else {
+        setIsRefreshing(true);
+      }
+
+      try {
+        const response = await fetch(`${apiEventURL}`);
+        const data = await response.json();
+        setEvents(data);
+      } catch (error) {
+        console.error('Error fetching events:', error);
+      }
+
+      if (!isRefresh) {
+        setIsLoading(false);
+      } else {
+        setIsRefreshing(false);
+      }
+    },
+    [apiEventURL],
+  );
+
   useEffect(() => {
     fetchData(false);
-  }, []);
+  }, [fetchData]);
 
-  const fetchData = async (isRefresh: boolean) => {
-    if (!isRefresh) {
-      setIsLoading(true);
-    } else {
-      setIsRefreshing(true);
-    }
-    try {
-      const response = await fetch(`${apiEventURL}`);
-      const data = await response.json();
-      setEvents(data);
-    } catch (error) {
-      console.error('Error fetching events:', error);
-    }
-    if (!isRefresh) {
-      setIsLoading(false);
-    } else {
-      setIsRefreshing(false);
-    }
-  };
-
-  const onRefresh = () => {
+  const onRefresh = useCallback(() => {
     fetchData(true);
-  };
+  }, [fetchData]);
 
   const Themestyles = StyleSheet.create({
     container: {

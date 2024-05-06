@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import NavContainer from "./src/navigation/NavigationContainer";
-import SplashScreen from "react-native-splash-screen";
+import React, {useEffect, useState} from 'react';
+import NavContainer from './src/navigation/NavigationContainer';
+import SplashScreen from 'react-native-splash-screen';
 import * as Keychain from 'react-native-keychain';
-import onDisplayNotifications from './src/services/Notifications'
-import { useDispatch } from 'react-redux';
-import { setAuthStatus } from './src/redux/Slices/UserSlice';
-import { Theme, ThemeContext } from "./src/context/ThemeContext";
+import onDisplayNotifications from './src/services/Notifications';
+import {useDispatch} from 'react-redux';
+import {setAuthStatus} from './src/redux/Slices/UserSlice';
+import {Theme, ThemeContext} from './src/context/ThemeContext';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -22,7 +22,7 @@ export default function App() {
         }
       }
     } catch (error) {
-      console.log("Error retrieving tokens", error);
+      error;
     }
     setLoading(false);
   };
@@ -35,17 +35,15 @@ export default function App() {
 
   useEffect(() => {
     onDisplayNotifications();
-  }, [])
+  }, []);
 
   if (loading) {
     return null;
   }
 
-
-
   return (
-    <ThemeContext.Provider value={{ theme, setTheme }}>
-        <NavContainer />
+    <ThemeContext.Provider value={{theme, setTheme}}>
+      <NavContainer />
     </ThemeContext.Provider>
-);
+  );
 }

@@ -30,7 +30,6 @@ export const fetchPosts = createAsyncThunk<
       params: {page, pageSize},
     });
     if (response.data) {
-      console.log('Fetch successful');
       return {
         posts: response.data.results,
         pagination: response.data.pagination,

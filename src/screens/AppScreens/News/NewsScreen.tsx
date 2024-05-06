@@ -54,25 +54,28 @@ export default function NewsScreen() {
     }
   }, [currentPage, pageSize, isRefreshing]);
 
-  const handleFetchPosts = (page: number, pageSize: number) => {
-    dispatch(fetchPosts({page, pageSize}));
-  };
+  const handleFetchPosts = useCallback(
+    (page: number, pageSize: number) => {
+      dispatch(fetchPosts({page, pageSize}));
+    },
+    [dispatch],
+  );
 
-  const handleNextPage = () => {
+  const handleNextPage = useCallback(() => {
     if (pagination && pagination.hasNextPage) {
       setCurrentPage(currentPage + 1);
     }
-  };
+  }, [pagination, currentPage]);
 
-  const handlePreviousPage = () => {
+  const handlePreviousPage = useCallback(() => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
     }
-  };
+  }, [currentPage]);
 
-  const handleEndReached = () => {
+  const handleEndReached = useCallback(() => {
     setReachedEnd(true);
-  };
+  }, []);
 
   const onRefresh = useCallback(async () => {
     setIsRefreshing(true);

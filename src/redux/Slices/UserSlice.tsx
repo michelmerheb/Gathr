@@ -32,7 +32,6 @@ export const createUser = createAsyncThunk<
   try {
     const response = await axios.post(`${apiBaseURL}/signup`, userData);
     if (response.data) {
-      console.log('Signup successful!');
       await Keychain.setGenericPassword(
         'token',
         JSON.stringify({
@@ -58,7 +57,6 @@ export const loginUser = createAsyncThunk<
   try {
     const response = await axios.post(`${apiBaseURL}/login`, loginData);
     if (response.data) {
-      console.log('Login successful');
       await Keychain.setGenericPassword(
         'token',
         JSON.stringify({
@@ -87,7 +85,6 @@ export const refreshToken = createAsyncThunk<
       token_expires_in: '30m',
     });
     if (response.data && response.data.accessToken) {
-      console.log('Token refresh successful');
       await Keychain.setGenericPassword(
         'token',
         JSON.stringify({
