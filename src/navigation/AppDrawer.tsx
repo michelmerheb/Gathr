@@ -31,9 +31,9 @@ function CustomDrawerContent(props: any) {
             source={UserPhoto}
             style={{width: 80, height: 80, borderRadius: 40, marginBottom: 10}}
           />
-          <Text style={{color: 'white', fontSize: 18}}>John Doe</Text>
+          <Text style={{color: 'white', fontSize: 18}}>Philip Rolodex</Text>
           <Text style={{color: 'white', fontSize: 12, opacity: 0.8}}>
-            john.doe@example.com
+            PhilipRolodex1@gmail.com
           </Text>
         </View>
         <View style={{backgroundColor: 'white'}}>
