@@ -28,7 +28,7 @@ const MyTab = () => {
         },
         tabBarShowLabel: false,
         tabBarStyle: {
-          height: 70,
+          height: 50,
         },
         tabBarActiveTintColor: 'purple',
         tabBarInactiveTintColor: 'gray',
